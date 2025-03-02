@@ -1,1 +1,5 @@
-<h1>Shady</h1>
+<script>
+	import Shady from '$lib/components/Shady.svelte';
+</script>
+
+<Shady />
