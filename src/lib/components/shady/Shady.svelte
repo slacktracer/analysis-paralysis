@@ -11,8 +11,6 @@
 		WebGLRenderer
 	} from 'three';
 
-	console.log(import.meta.url);
-
 	let previousTime: number | null = null;
 	let totalTime: number = 0;
 
@@ -25,8 +23,12 @@
 
 		camera.position.set(0, 0, 1);
 
-		const vsh = await fetch('./src/lib/components/shady/shaders/vertex-shader.glsl');
-		const fsh = await fetch('./src/lib/components/shady/shaders/fragment-shader.glsl');
+		const x = new URL(import.meta.url);
+		const y = x.pathname.split('/');
+		const z = y.slice(0, y.length - 1).join('/');
+
+		const vsh = await fetch(`${z}/shaders/vertex-shader.glsl`);
+		const fsh = await fetch(`${z}/shaders/fragment-shader.glsl`);
 
 		const material = new ShaderMaterial({
 			fragmentShader: await fsh.text(),
