@@ -60,13 +60,23 @@
 		loop({ camera, material, renderer, scene });
 	};
 
-	const loop = ({ camera, material, renderer, scene }) => {
+	const loop = ({
+		camera,
+		material,
+		renderer,
+		scene
+	}: {
+		readonly camera: OrthographicCamera;
+		readonly material: ShaderMaterial;
+		readonly renderer: WebGLRenderer;
+		readonly scene: Scene;
+	}) => {
 		requestAnimationFrame((time) => {
 			if (previousTime === null) {
 				previousTime = time;
 			}
 
-			step(material, time - previousTime);
+			step({ material, timeElapsed: time - previousTime });
 
 			renderer.render(scene, camera);
 
@@ -76,7 +86,7 @@
 		});
 	};
 
-	const step = (material, timeElapsed) => {
+	const step = ({ material, timeElapsed }: { material: ShaderMaterial; timeElapsed: number }) => {
 		const timeElapsedS = timeElapsed * 0.001;
 
 		totalTime += timeElapsedS;
@@ -84,7 +94,17 @@
 		material.uniforms.time.value = totalTime;
 	};
 
-	const makeOnWindowResize = ({ camera, material, renderer, window }) => {
+	const makeOnWindowResize = ({
+		camera,
+		material,
+		renderer,
+		window
+	}: {
+		camera: OrthographicCamera;
+		material: ShaderMaterial;
+		renderer: WebGLRenderer;
+		window: Window;
+	}) => {
 		return () => {
 			const dpr = window.devicePixelRatio;
 
