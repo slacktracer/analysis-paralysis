@@ -10,6 +10,8 @@
 		Vector2,
 		WebGLRenderer
 	} from 'three';
+	import fragmentShader from './shaders/fragment-shader.glsl?raw';
+	import vertexShader from './shaders/vertex-shader.glsl?raw';
 
 	let previousTime: number | null = null;
 	let totalTime: number = 0;
@@ -23,20 +25,13 @@
 
 		camera.position.set(0, 0, 1);
 
-		const x = new URL(import.meta.url);
-		const y = x.pathname.split('/');
-		const z = y.slice(0, y.length - 1).join('/');
-
-		const vsh = await fetch(`${z}/shaders/vertex-shader.glsl`);
-		const fsh = await fetch(`${z}/shaders/fragment-shader.glsl`);
-
 		const material = new ShaderMaterial({
-			fragmentShader: await fsh.text(),
+			fragmentShader,
 			uniforms: {
 				resolution: { value: new Vector2(window.innerWidth, window.innerHeight) },
 				time: { value: 0.0 }
 			},
-			vertexShader: await vsh.text()
+			vertexShader
 		});
 
 		const geometry = new PlaneGeometry(1, 1);
