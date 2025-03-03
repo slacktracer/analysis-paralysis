@@ -1,5 +1,5 @@
 <script>
-	import Shady from '$lib/components/Boxy.svelte';
+	import Boxy from '$lib/components/Boxy.svelte';
 </script>
 
-<Shady />
+<Boxy />
