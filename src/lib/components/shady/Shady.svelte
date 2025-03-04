@@ -1,147 +1,33 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import { on } from 'svelte/events';
-	import {
-		Color,
-		Mesh,
-		Float32BufferAttribute,
-		OrthographicCamera,
-		PlaneGeometry,
-		Scene,
-		ShaderMaterial,
-		Vector2,
-		Vector4,
-		WebGLRenderer
-	} from 'three';
 	import fragmentShader from './shaders/fragment-shader.glsl?raw';
+	import { loop } from '../../../shader-x-engine/loop.js';
 	import vertexShader from './shaders/vertex-shader.glsl?raw';
+	import { makeWindowResizeHandler } from '../../../shader-x-engine/make-window-resize-handler.js';
+	import { browser } from '$app/environment';
+	import { boot } from '../../../shader-x-engine/boot.js';
 
-	let previousTime: number | null = null;
-	let totalTime: number = 0;
+	if (browser) {
+		(async () => {
+			const { camera, material, renderer, scene } = boot({
+				fragmentShader,
+				height: window.innerHeight,
+				vertexShader,
+				width: window.innerWidth
+			});
 
-	const boot = async () => {
-		const renderer = new WebGLRenderer();
+			window.document.body.appendChild(renderer.domElement);
 
-		const scene = new Scene();
+			const onWindowResize = makeWindowResizeHandler({ material, renderer, window });
 
-		const camera = new OrthographicCamera(0, 1, 1, 0, 0.1, 1000);
+			window.addEventListener('resize', onWindowResize, false);
 
-		camera.position.set(0, 0, 1);
+			onWindowResize();
 
-		const material = new ShaderMaterial({
-			fragmentShader,
-			uniforms: {
-				colour1: { value: new Vector4(1, 1, 0, 1) },
-				colour2: { value: new Vector4(0, 1, 1, 1) },
-				resolution: { value: new Vector2(window.innerWidth, window.innerHeight) },
-				time: { value: 0.0 }
-			},
-			vertexShader
-		});
+			const timer = { previousTime: 0, totalTime: 0 };
 
-		const geometry = new PlaneGeometry(1, 1);
-
-		const colours = [
-			new Color(0xff0000),
-			new Color(0x00ff00),
-			new Color(0x0000ff),
-			new Color(0xf000f0)
-		]
-			.map((item) => item.toArray())
-			.flat();
-
-		geometry.setAttribute('myStuff', new Float32BufferAttribute(colours, 3));
-
-		const plane = new Mesh(geometry, material);
-
-		plane.position.set(0.5, 0.5, 0);
-
-		scene.add(plane);
-
-		document.body.appendChild(renderer.domElement);
-
-		const app = {
-			camera,
-			material,
-			renderer,
-			scene
-		};
-
-		const onWindowResize = makeOnWindowResize({ camera, material, renderer, window });
-
-		window.addEventListener('resize', onWindowResize, false);
-
-		onWindowResize();
-
-		loop({ camera, material, renderer, scene });
-	};
-
-	const loop = ({
-		camera,
-		material,
-		renderer,
-		scene
-	}: {
-		readonly camera: OrthographicCamera;
-		readonly material: ShaderMaterial;
-		readonly renderer: WebGLRenderer;
-		readonly scene: Scene;
-	}) => {
-		requestAnimationFrame((time) => {
-			if (previousTime === null) {
-				previousTime = time;
-			}
-
-			step({ material, timeElapsed: time - previousTime });
-
-			renderer.render(scene, camera);
-
-			loop({ camera, material, renderer, scene });
-
-			previousTime = time;
-		});
-	};
-
-	const step = ({ material, timeElapsed }: { material: ShaderMaterial; timeElapsed: number }) => {
-		const timeElapsedS = timeElapsed * 0.001;
-
-		totalTime += timeElapsedS;
-
-		material.uniforms.time.value = totalTime;
-	};
-
-	const makeOnWindowResize = ({
-		camera,
-		material,
-		renderer,
-		window
-	}: {
-		camera: OrthographicCamera;
-		material: ShaderMaterial;
-		renderer: WebGLRenderer;
-		window: Window;
-	}) => {
-		return () => {
-			const dpr = window.devicePixelRatio;
-
-			const canvas = renderer.domElement;
-
-			canvas.style.width = window.innerWidth + 'px';
-			canvas.style.height = window.innerHeight + 'px';
-
-			const w = canvas.clientWidth;
-			const h = canvas.clientHeight;
-
-			renderer.setSize(w * dpr, h * dpr, false);
-
-			material.uniforms.resolution.value = new Vector2(
-				window.innerWidth * dpr,
-				window.innerHeight * dpr
-			);
-		};
-	};
-
-	browser && boot();
+			loop({ camera, material, renderer, scene, timer });
+		})();
+	}
 </script>
 
 <style>
