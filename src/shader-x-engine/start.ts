@@ -2,13 +2,15 @@ import { boot } from "./boot.js";
 import { makeWindowResizeHandler } from "./make-window-resize-handler.js";
 import { loop } from "./loop.js";
 
-export const start = async (
-  { fragmentShader, vertexShader, window }: {
-    fragmentShader: string;
-    vertexShader: string;
-    window: Window;
-  },
-) => {
+export const start = async ({
+  fragmentShader,
+  vertexShader,
+  window,
+}: {
+  fragmentShader: string;
+  vertexShader: string;
+  window: Window;
+}) => {
   const { camera, material, renderer, scene } = boot({
     fragmentShader,
     height: window.innerHeight,

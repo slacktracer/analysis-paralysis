@@ -2,9 +2,11 @@ import { defineConfig } from "vitest/config";
 import { sveltekit } from "@sveltejs/kit/vite";
 
 const fullReloadAlways = {
-  handleHotUpdate(
-    { server }: { server: { ws: { send: (input: { type: string }) => void } } },
-  ) {
+  handleHotUpdate({
+    server,
+  }: {
+    server: { ws: { send: (input: { type: string }) => void } };
+  }) {
     server.ws.send({ type: "full-reload" });
 
     return [];
@@ -14,10 +16,7 @@ const fullReloadAlways = {
 };
 
 export default defineConfig({
-  plugins: [
-    sveltekit(),
-    fullReloadAlways,
-  ],
+  plugins: [sveltekit(), fullReloadAlways],
 
   server: {
     port: 5173,

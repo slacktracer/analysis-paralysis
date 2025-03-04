@@ -11,14 +11,17 @@ import {
   WebGLRenderer,
 } from "three";
 
-export const boot = (
-  { fragmentShader, height, vertexShader, width }: {
-    readonly fragmentShader: string;
-    readonly height: number;
-    readonly vertexShader: string;
-    readonly width: number;
-  },
-) => {
+export const boot = ({
+  fragmentShader,
+  height,
+  vertexShader,
+  width,
+}: {
+  readonly fragmentShader: string;
+  readonly height: number;
+  readonly vertexShader: string;
+  readonly width: number;
+}) => {
   const renderer = new WebGLRenderer();
 
   const scene = new Scene();

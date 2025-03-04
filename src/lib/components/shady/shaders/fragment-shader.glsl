@@ -6,9 +6,11 @@ uniform vec4 colour2;
 uniform float time;
 
 void main() {
-    gl_FragColor = mix(
-        vec4(0.9, 0.1, 0.1, 1.0),
-        vec4(.1, .9, .2, 1.),
-        vUvs.y
-    );
+    vec4 colour = vec4(vec3(cos((time))), 1.0);
+
+    if (vUvs.x > 0.5) {
+        colour = vec4(vec3(sin((time))), 1.0);
+    }
+
+    gl_FragColor = colour;
 }
