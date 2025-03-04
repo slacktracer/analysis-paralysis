@@ -1,4 +1,4 @@
-import { step } from "./step.ts";
+import { step } from "./step.js";
 import {
   OrthographicCamera,
   Scene,
