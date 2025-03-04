@@ -2,12 +2,15 @@
 	import { browser } from '$app/environment';
 	import { on } from 'svelte/events';
 	import {
+		Color,
 		Mesh,
+		Float32BufferAttribute,
 		OrthographicCamera,
 		PlaneGeometry,
 		Scene,
 		ShaderMaterial,
 		Vector2,
+		Vector4,
 		WebGLRenderer
 	} from 'three';
 	import fragmentShader from './shaders/fragment-shader.glsl?raw';
@@ -28,6 +31,8 @@
 		const material = new ShaderMaterial({
 			fragmentShader,
 			uniforms: {
+				colour1: { value: new Vector4(1, 1, 0, 1) },
+				colour2: { value: new Vector4(0, 1, 1, 1) },
 				resolution: { value: new Vector2(window.innerWidth, window.innerHeight) },
 				time: { value: 0.0 }
 			},
@@ -35,6 +40,17 @@
 		});
 
 		const geometry = new PlaneGeometry(1, 1);
+
+		const colours = [
+			new Color(0xff0000),
+			new Color(0x00ff00),
+			new Color(0x0000ff),
+			new Color(0xf000f0)
+		]
+			.map((item) => item.toArray())
+			.flat();
+
+		geometry.setAttribute('myStuff', new Float32BufferAttribute(colours, 3));
 
 		const plane = new Mesh(geometry, material);
 
