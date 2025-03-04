@@ -1,5 +1,6 @@
-import prettier from "eslint-config-prettier";
 import js from "@eslint/js";
+import prettier from "eslint-config-prettier";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
 import svelte from "eslint-plugin-svelte";
 import globals from "globals";
 import ts from "typescript-eslint";
@@ -20,7 +21,6 @@ export default ts.config(
   },
   {
     files: ["**/*.svelte"],
-
     languageOptions: {
       parserOptions: {
         parser: ts.parser,
@@ -29,5 +29,14 @@ export default ts.config(
   },
   {
     ignores: ["build/", ".svelte-kit/", "dist/"],
+  },
+  {
+    plugins: {
+      "simple-import-sort": simpleImportSort,
+    },
+    rules: {
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
+    },
   },
 );

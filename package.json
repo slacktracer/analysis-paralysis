@@ -9,13 +9,20 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "format": "prettier --write .",
-    "lint": "prettier --check . && eslint .",
+    "lint": "eslint . --fix",
+    "lint-staged": "lint-staged",
     "test:unit": "vitest",
     "test": "npm run test:unit -- --run && npm run test:e2e",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "prepare": "husky"
   },
   "dependencies": {
-    "three": "^0.174.0"
+    "@eslint/js": "^9.21.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "three": "^0.174.0",
+    "tsc-files": "^1.1.4"
   },
   "devDependencies": {
     "@playwright/test": "^1.45.3",

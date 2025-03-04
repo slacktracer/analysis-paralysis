@@ -1,10 +1,11 @@
-import { step } from "./step.js";
 import {
   OrthographicCamera,
   Scene,
   ShaderMaterial,
   WebGLRenderer,
 } from "three";
+
+import { step } from "./step.js";
 
 export const loop = ({
   camera,

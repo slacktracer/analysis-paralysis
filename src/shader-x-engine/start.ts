@@ -1,6 +1,6 @@
 import { boot } from "./boot.js";
-import { makeWindowResizeHandler } from "./make-window-resize-handler.js";
 import { loop } from "./loop.js";
+import { makeWindowResizeHandler } from "./make-window-resize-handler.js";
 
 export const start = async ({
   fragmentShader,

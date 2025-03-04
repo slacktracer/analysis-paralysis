@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { browser } from "$app/environment";
   import * as THREE from "three";
+
+  import { browser } from "$app/environment";
 
   if (browser) {
     const scene = new THREE.Scene();
