@@ -3,7 +3,7 @@
 
   import { browser } from "$app/environment";
 
-  import { start } from "../../../shader-x-engine/start.js";
+  import { start } from "../../../shader-playground-engine/start.js";
   import fragmentShader from "./shaders/fragment-shader.glsl?raw";
   import vertexShader from "./shaders/vertex-shader.glsl?raw";
 
