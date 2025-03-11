@@ -1,32 +1,23 @@
-
-varying vec2 vUvs;
-
+varying vec2 v_uv;
+uniform vec2 resolution;
+uniform float time;
 
 void main() {
-    vec3 colour = vec3(0.0);
+    vec3 color = vec3(v_uv.xy, 0.1);
 
-    float value1 = vUvs.x;
-    float value2 = vUvs.x * (1.0 - vUvs.x) * 4.0;
+    //[ -1.0 to 1.0 respecting aspect ratio
+    vec2 uv = 2.0 * v_uv.xy - 1.0;
 
-    float line = smoothstep(0.0, 0.05, abs(vUvs.x - 0.5));
-    float linearLine = smoothstep(0.0, 0.0075, abs(vUvs.y - mix(0.5, 1.0, value1)));
-    float smoothLine = smoothstep(0.0, 0.0075, abs(vUvs.y - mix(0.0, 0.5, value2)));
+    float aspect = resolution.x / resolution.y;
 
-    vec3 red = vec3(1.0, 0.0, 0.0);
-    vec3 blue = vec3(0.0, 0.0, 1.0);
-    vec3 white = vec3(1.0, 1.0, 1.0);
-    vec3 yellow = vec3(1.0, 1.0, 0.0);
-    vec3 green = vec3(0.0, 1.0, 0.0);
+    uv.x *= aspect;
+    //]
 
-    if (vUvs.y > 0.5) {
-        colour = mix(red, blue, value1);
-    } else {
-        colour = mix(red, blue, value2);
-    }
+    float invertedLengthOfUV = 1.0 - length(uv);
 
-    colour = mix(white, colour, line);
-    colour = mix(white, colour, linearLine);
-    colour = mix(white, colour, smoothLine);
+    float smoothBorder = smoothstep(0.4999, 0.5111, invertedLengthOfUV);
 
-    gl_FragColor = vec4(colour, 1.0);
+    vec2 absoluteUVXY = abs(uv.xy);
+
+    gl_FragColor = vec4(absoluteUVXY, smoothBorder, 1.0);
 }
