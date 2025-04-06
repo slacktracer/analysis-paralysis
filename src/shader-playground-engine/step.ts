@@ -13,5 +13,5 @@ export const step = ({
 
   timer.totalTime += timeElapsedS;
 
-  material.uniforms.time.value = timer.totalTime;
+  material.uniforms.uTime.value = timer.totalTime;
 };

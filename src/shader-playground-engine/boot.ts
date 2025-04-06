@@ -35,8 +35,8 @@ export const boot = ({
     uniforms: {
       colour1: { value: new Vector4(1, 1, 0, 1) },
       colour2: { value: new Vector4(0, 1, 1, 1) },
-      resolution: { value: new Vector2(width, height) },
-      time: { value: 0.0 },
+      uResolution: { value: new Vector2(width, height) },
+      uTime: { value: 0.0 },
     },
     vertexShader,
   });

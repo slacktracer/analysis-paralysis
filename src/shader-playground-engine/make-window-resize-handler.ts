@@ -23,7 +23,7 @@ export const makeWindowResizeHandler = ({
 
     renderer.setSize(w * dpr, h * dpr, false);
 
-    material.uniforms.resolution.value = new Vector2(
+    material.uniforms.uResolution.value = new Vector2(
       window.innerWidth * dpr,
       window.innerHeight * dpr,
     );
