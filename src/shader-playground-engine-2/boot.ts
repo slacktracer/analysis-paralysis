@@ -32,6 +32,7 @@ export const boot = ({
 
   const material = new ShaderMaterial({
     fragmentShader,
+    glslVersion: "300 es",
     uniforms: {
       colour1: { value: new Vector4(1, 1, 0, 1) },
       colour2: { value: new Vector4(0, 1, 1, 1) },

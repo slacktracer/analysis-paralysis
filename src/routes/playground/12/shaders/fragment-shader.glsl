@@ -3,9 +3,9 @@ uniform vec2 uResolution;
 uniform float time;
 
 void main() {
-    vec2 xy = v_uv;
+    vec2 xy = v_uv * 2.0 + 1.0;
     xy.x *= uResolution.x / uResolution.y;
-    xy = xy * 5.0;
+    xy = xy * 2.0;
     vec2 i = floor(xy);
     xy = fract(xy);
     
