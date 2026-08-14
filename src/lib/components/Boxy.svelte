@@ -35,7 +35,7 @@
     scene.add(light);
     scene.add(light.target);
 
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const geometry = new THREE.BoxGeometry(1, 2, 1);
     const material = new THREE.MeshPhongMaterial({
       color: 0xff0000, // red (can also use a CSS color string here)
       flatShading: true,
@@ -48,8 +48,8 @@
     camera.position.z = 5;
 
     function animate() {
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
+      cube.rotation.x += 0.0001;
+      cube.rotation.y += 0.005;
 
       renderer.render(scene, camera);
     }
